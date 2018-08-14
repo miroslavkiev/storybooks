@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
@@ -54,6 +55,9 @@ app.use((req, res, next) => {
 	res.locals.user = req.user || null;
 	next();
 });
+
+//Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Use routes
 app.use('/auth', auth);
