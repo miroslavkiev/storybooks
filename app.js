@@ -5,9 +5,13 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const request = require('request');
+const { JSDOM } = require("jsdom");
 
-//Load user model
+//Load models
 require('./models/User');
+require('./models/Story');
 
 //Passport config
 require('./config/passport')(passport);
@@ -31,6 +35,10 @@ mongoose.connect(keys.mongoURI, {
 	.catch(err => console.log(err));
 
 const app = express();
+
+//Bodyparser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //Handlebars middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
