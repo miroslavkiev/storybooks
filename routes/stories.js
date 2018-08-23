@@ -28,6 +28,18 @@ router.get('/show', ensureAuthenticated, (req, res) => {
 	res.render('stories/show');
 });
 
+router.get('/show/:id', (req, res) => {
+	Story.findOne({
+		_id: req.params.id
+	})
+		.populate('user')
+		.then(story => {
+			res.render('stories/show', {
+				story: story
+			});
+		})
+});
+
 router.post('/', ensureAuthenticated, (req, res) => {
 	let allowComments;
 

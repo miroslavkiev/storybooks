@@ -10,7 +10,7 @@ const request = require('request');
 const { JSDOM } = require("jsdom");
 
 // Load helpers
-const {truncate, stripTags} = require('./helpers/hbs');
+const {truncate, stripTags, formatDate} = require('./helpers/hbs');
 
 //Load models
 require('./models/User');
@@ -47,7 +47,8 @@ app.use(bodyParser.json());
 app.engine('handlebars', exphbs({
 	helpers: {
 		truncate: truncate,
-		stripTags: stripTags
+		stripTags: stripTags,
+		formatDate: formatDate
 	},
 	defaultLayout: 'main'
 }));
