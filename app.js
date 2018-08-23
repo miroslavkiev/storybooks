@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const { JSDOM } = require("jsdom");
 
+// Load helpers
+const {truncate, stripTags} = require('./helpers/hbs');
+
 //Load models
 require('./models/User');
 require('./models/Story');
@@ -41,7 +44,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Handlebars middleware
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+	helpers: {
+		truncate: truncate,
+		stripTags: stripTags
+	},
+	defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 
 //Cookie parser middleware
