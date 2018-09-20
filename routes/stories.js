@@ -58,7 +58,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 		.then(story => {
 			let allowComments;
 
-			if(req.body.allowComments){
+			if (req.body.allowComments) {
 				allowComments = true;
 			} else {
 				allowComments = false;
@@ -77,10 +77,17 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 		})
 });
 
+router.delete('/:id', ensureAuthenticated, (req, res) => {
+	Story.remove({_id: req.params.id})
+		.then(() => {
+			res.redirect('/dashboard');
+		})
+});
+
 router.post('/', ensureAuthenticated, (req, res) => {
 	let allowComments;
 
-	if(req.body.allowComments){
+	if (req.body.allowComments) {
 		allowComments = true;
 	} else {
 		allowComments = false;
