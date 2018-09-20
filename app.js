@@ -6,6 +6,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const request = require('request');
 const { JSDOM } = require("jsdom");
 
@@ -42,6 +43,9 @@ const app = express();
 //Bodyparser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//Method-override middleware
+app.use(methodOverride('_method'));
 
 //Handlebars middleware
 app.engine('handlebars', exphbs({
