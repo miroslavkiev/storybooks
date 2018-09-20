@@ -9,6 +9,7 @@ const {ensureAuthenticated} = require('../helpers/auth');
 router.get('/', (req, res) => {
 	Story.find({status: 'public'})
 		.populate('user')
+		.sort({date: 'desc'})
 		.then(stories => {
 			res.render('stories/index', {
 				stories: stories
@@ -46,9 +47,13 @@ router.get('/edit/:id', (req, res) => {
 		_id: req.params.id
 	})
 		.then(story => {
-			res.render('stories/edit', {
-				story: story
-			});
+			if(story.user != req.user.id){
+				res.redirect('/stories');
+			} else{
+				res.render('stories/edit', {
+					story: story
+				});
+			}
 		})
 });
 
@@ -125,6 +130,26 @@ router.post('/comment/:id', (req, res) => {
 				.then(story => {
 					res.redirect(`/stories/show/${story.id}`);
 				});
+		});
+});
+
+router.get('/user/:userId', (req, res) => {
+	Story.find({user: req.params.userId, status: 'public'})
+		.populate('user')
+		.then(stories => {
+			res.render('stories/index', {
+				stories: stories
+			});
+		});
+});
+
+router.get('/my', ensureAuthenticated, (req, res) => {
+	Story.find({user: req.user.id})
+		.populate('user')
+		.then(stories => {
+			res.render('stories/index', {
+				stories: stories
+			});
 		});
 });
 
