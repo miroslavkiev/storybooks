@@ -40,6 +40,17 @@ router.get('/show/:id', (req, res) => {
 		})
 });
 
+router.get('/edit/:id', (req, res) => {
+	Story.findOne({
+		_id: req.params.id
+	})
+		.then(story => {
+			res.render('stories/edit', {
+				story: story
+			});
+		})
+});
+
 router.post('/', ensureAuthenticated, (req, res) => {
 	let allowComments;
 
