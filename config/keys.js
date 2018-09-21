@@ -1,5 +1,5 @@
-module.exports = {
-	mongoURI: 'mongodb://miroslav:miroslav25@ds219832.mlab.com:19832/sorybooks-dev',
-	googleClientID: '195106054458-ceaf2ep5urujqqccqvh93urslodk1i4v.apps.googleusercontent.com',
-	googleClientSecret: 'fquvAF1JnpjyOXldeqHhjopM'
+if(process.env.NODE_ENV === 'production'){
+  module.exports = require('./keys_prod');
+} else {
+	module.exports = require('./keys_dev');
 }
